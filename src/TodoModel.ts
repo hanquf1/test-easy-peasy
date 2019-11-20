@@ -1,11 +1,13 @@
-import {Action, action} from 'easy-peasy'
+import {Action, action, Thunk, thunk} from 'easy-peasy'
 import {Todo} from './TodoList'
+import {StoreModel} from './index'
 
 export interface TodoModel {
   items: Todo[],
   add: Action<TodoModel, string>
   remove: Action<TodoModel, number>
   update: Action<TodoModel, Todo>
+  thunkAdd: Thunk<TodoModel, string, void, StoreModel>
 }
 
 export const TodoM: TodoModel = {
@@ -28,5 +30,20 @@ export const TodoM: TodoModel = {
           : item
       )
     )
+  }),
+  thunkAdd: thunk(async (actions, payload, helpers) => {
+    console.log('getState', helpers.getState())
+    console.log('getStoreState', helpers.getStoreState())
+
+    // setTimeout(() => {
+    //   actions.add(payload)
+    // }, 1000)
+
+    const temp = await fetch("https://swapi.co/api/planets/4/")
+    const res = await temp.json()
+    console.log('res', res)
+    actions.add(payload)
   })
+
+
 }

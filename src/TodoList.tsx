@@ -2,6 +2,7 @@ import * as React from 'react'
 import TodoItem from './TodoItem'
 import {useEffect, useState} from 'react'
 import TodoForm from './TodoForm'
+import {useStoreState} from './hooks'
 
 interface Props {
   name?: string
@@ -15,8 +16,9 @@ export interface Todo {
 }
 
 const TodoList: React.FC<Props> = (props) => {
+  const todos = useStoreState(state => state.todo.items)
 
-  const [list, setList] = useState(props.list)
+  const [list, setList] = useState(todos)
   const [count, setCount] = useState(0)
   const [fRes, setfRes] = useState({})
 

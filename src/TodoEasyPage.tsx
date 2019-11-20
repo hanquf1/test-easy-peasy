@@ -2,18 +2,27 @@ import * as React from 'react'
 import {Link} from 'react-router-dom'
 import TodoEasyList from './TodoEasyList'
 import {useStoreActions, useStoreState} from './hooks'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 const TodoEasyPage: React.FC = () => {
   const todos = useStoreState(state => state.todo.items)
-  const add = useStoreActions(actions => actions.todo.add)
+  // const add = useStoreActions(actions => actions.todo.add)
+  const add = useStoreActions(actions => actions.todo.thunkAdd)
 
   const [todo, setTodo] = useState('')
+
+  useEffect(() => {
+    document.title = 'haha'
+
+    return () => {
+      document.title = 'end'
+    }
+  })
 
   console.log('todos', todos)
 
   const handleClick = () => {
-    add(todo)
+    const a = add(todo)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
